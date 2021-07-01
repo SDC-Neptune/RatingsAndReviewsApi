@@ -1,0 +1,24 @@
+{
+  "name": "reviewsapi",
+  "version": "1.0.0",
+  "description": "RESTful API with Node.js, Express, and PostgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDC-Neptune/ReviewsAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDC-Neptune/ReviewsAPI/issues"
+  },
+  "homepage": "https://github.com/SDC-Neptune/ReviewsAPI#readme",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "express": "^4.17.1",
+    "pg": "^8.6.0"
+  }
+}
