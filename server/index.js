@@ -1,7 +1,7 @@
 const express = require("express");
 // import config from '../config.js'
 const app = express();
-const PORT = 3000;
+const PORT = 3010;
 const db = require('../database/index.js')
 
 app.use(express.json());
@@ -10,19 +10,23 @@ app.use(express.urlencoded( { extended: true }));
 // *** GET REQUESTS *** //
 
 app.get('/reviews', (req, res) => {
-  console.log('request----', req.body)
-  db.getReviews(req.body)
+  console.log('request----', req.query)
+  db.getReviews(req.query)
   .then(data=> {
-    reviewFields = {
-      "product_id": req.body.product_id,
-      "page": req.body.page|| 1,
-      "count": req.body.count || 5,
-      "results": data.rows
-    }
+    data.rows.forEach(row => {
+      if (!row.photos) row.photos = [];
+    // console.log("data", data)
+      reviewFields = {
+        "product_id": req.query.product_id || 1,
+        "page": req.query.page|| 1,
+        "count": req.query.count || 5,
+        "results": data.rows
+      }
+    })
     res.send(reviewFields);
   })
   .catch(err => {
-    console.log(err)
+    console.log('error', err)
   });
 });
 
@@ -50,9 +54,11 @@ app.get('/reviews/meta', (req, res) => {
       let currentRating = rating.rating.toString()
       totalRating[currentRating] ++
     })
+
     data.rows.forEach((rec) => {
       recommended[rec.recommend] ++
     })
+
     data.rows.forEach((charac) => {
       if (char[charac.name]) {
         let currentValue = char[charac.name].value += charac.value
@@ -61,7 +67,6 @@ app.get('/reviews/meta', (req, res) => {
           "id": charac.characteristic_id,
           "value": currentValue
         }
-
       }
       if (!char[charac.name]) {
         char[charac.name] = {
@@ -74,7 +79,7 @@ app.get('/reviews/meta', (req, res) => {
 
     for (let key in char) {
       char[key].value = char[key].value / charSize[key]
-      console.log('key', key, char[key])
+      // console.log('key', key, char[key])
     }
 
     reviewMetaFields = {

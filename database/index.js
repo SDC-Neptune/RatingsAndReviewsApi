@@ -6,6 +6,7 @@ const getProduct = () => {
 }
 
 const getReviews = (body) => {
+  console.log('body', body)
   let product_id = body.product_id;
   let page = body.page || 1;
   let count = body.count || 5;
@@ -82,7 +83,7 @@ const addReviewPhotos = ( id, photos ) => {
 }
 
 const addCharacteristics = (charId, review_id, value) => {
-  let args = ...arguments
+  let args = [charId, review_id, value]
   let pgsq = `INSERT INTO characteristic_reviews (
     characteristic_id,
     review_id,
